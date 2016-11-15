@@ -53,17 +53,17 @@ class SupportCase(object):
         else:
             initiated = 'Amazon Initiated'
 
-        return u'SupportCase ({display_id}/{initiated}) - <{subject}>'.format(
+        return 'SupportCase ({display_id}/{initiated}) - <{subject}>'.format(
             display_id=self.display_id,
             initiated=initiated,
-            body=self.subject,
+            subject=self.subject,
         )
 
     def __repr__(self):
         return self.__unicode__()
 
     def _get_communications(self):
-        logging.info('Collecting communications for case %s' % self.case_id)
+        logging.info('Collecting communications for case %s', self.case_id)
         parsed_communications = []
         raw_communications = support.describe_communications(
             case_id=self.case_id,
@@ -135,19 +135,20 @@ if __name__ == '__main__':
     for case in raw_cases['cases']:
         cases.append(SupportCase(data=case))
 
-    print 'display_id, severity, creation_timestamp, first_timestamp, '\
-          'response_time, sla, subject'
+    print('display_id, severity, creation_timestamp, first_timestamp, response_time, sla, subject')
     for case in cases:
         if case.sla_violated:
             response_time = case.creation_time
-            print '{display_id}, {severity}, {creation_ts}, '\
-                  '{first_response_ts}, {response_time}, '\
-                  '{sla_time}, {subject}'.format(
-                      display_id=case.display_id,
-                      severity=case.severity,
-                      creation_ts=case.creation_time,
-                      first_response_ts=case.first_response.creation_time,
-                      response_time=case.first_response_time,
-                      sla_time=AMZ_SLA[case.severity],
-                      subject=case.subject,
-                  )
+            print(
+                '{display_id}, {severity}, {creation_ts}, '
+                '{first_response_ts}, {response_time}, '
+                '{sla_time}, {subject}'.format(
+                    display_id=case.display_id,
+                    severity=case.severity,
+                    creation_ts=case.creation_time,
+                    first_response_ts=case.first_response.creation_time,
+                    response_time=case.first_response_time,
+                    sla_time=AMZ_SLA[case.severity],
+                    subject=case.subject,
+                )
+            )

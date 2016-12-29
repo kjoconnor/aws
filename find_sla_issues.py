@@ -147,8 +147,8 @@ if __name__ == '__main__':
                     severity=case.severity,
                     creation_ts=case.creation_time,
                     first_response_ts=case.first_response.creation_time,
-                    response_time=case.first_response_time,
-                    sla_time=AMZ_SLA[case.severity],
+                    response_time=str(case.first_response_time).replace(',', ''),
+                    sla_time=str(AMZ_SLA[case.severity]).replace(',', ''),
                     subject=case.subject,
                 )
             )
